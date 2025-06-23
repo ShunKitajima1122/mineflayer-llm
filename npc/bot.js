@@ -74,11 +74,13 @@ module.exports = function createBot() {
         const status = utils.getStatus(username, message);
         const memory = history.recent(40);
 
+        console.log(status);
+
         try {
             const result = await ai.getAction(memory, status);
 
             if (result.type === 'plan' && Array.isArray(result.steps)) {
-                bot.chat('了解、計画を実行します！');
+                bot.chat('I understand the plan. executing...');
                 taskQueue.add(result.steps);
                 return;
             }
@@ -91,7 +93,7 @@ module.exports = function createBot() {
         } catch (err) {
             console.error(err);
             if (Sentry) Sentry.captureException?.(err);
-            bot.chat('エラーが発生しました。');
+            bot.chat('Error: ' + err.message);
         }
     });
 
@@ -129,14 +131,14 @@ module.exports = function createBot() {
     bot.on('time', () => {
         if (bot.time.isNight && !bot.isSleeping) {
             const bed = bot.findBlock({ matching: b => b.name?.includes('bed'), maxDistance: 16 });
-            if (bed) bot.sleep(bed).then(() => bot.chat('おやすみ！')).catch(() => { });
+            if (bed) bot.sleep(bed).then(() => bot.chat('Good Night!')).catch(() => { });
         }
     });
 
     // ログ表示コマンド
-    bot.on('chat', (u, msg) => {
-        if (u === bot.username && msg === '!log') {
-            (history.recent(15) || '履歴なし').split('\n').forEach(l => bot.chat(l));
+    bot.on('chat', (username, message) => {
+        if (username === bot.username && message === '!log') {
+            (history.recent(15) || 'No log').split('\n').forEach(l => bot.chat(l));
         }
     });
 };

@@ -10,8 +10,10 @@ module.exports = () => ({
             'build', 'equip', 'depositAll', 'status', 'stop'
         ].join(', ');
 
-        const systemPrompt = /* md */`
+        const systemPrompt = `
 You control a Minecraft Mineflayer bot.
+You will receive **Recent Event History** and **Current Status** as subsequent user messages.
+Use that information to decide the next single action or multi-step plan.
 Return **only** JSON with one of the following two schemas.
 
 \`\`\`jsonc
@@ -52,10 +54,14 @@ Valid \`<actionName>\` ⇒ **${ACTIONS}**.
                     max_tokens: 120,
                     messages: [
                         { role: 'system', content: systemPrompt },
-                        { role: 'user', content: `# Recent Event History\n${memory || '(No events scheduled)'}` },
-                        { role: 'user', content: status }
+                        {
+                            role: 'user', content:
+                                `Memory:\n${memory || '(No events)'}\n\n` +
+                                `Current Status:\n${status}`
+                        }
                     ]
                 });
+                console.log();
                 return JSON.parse(res.choices[0].message.content);
             } catch (e) {
                 if (i === 2) throw e;

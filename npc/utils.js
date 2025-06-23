@@ -18,7 +18,7 @@ module.exports = (bot) => {
     /* ---------- Inventory ---------- */
     function inventoryList() {
         const items = bot.inventory.items();
-        return items.length ? items.map(i => `${i.name}×${i.count}`).join(', ') : '空';
+        return items.length ? items.map(i => `${i.name}×${i.count}`).join(', ') : 'None';
     }
     function findNearestChest() {
         return bot.findBlock({ matching: b => b.name?.includes('chest'), maxDistance: 10 });
@@ -30,7 +30,7 @@ module.exports = (bot) => {
         if (!food) return false;
         await bot.equip(food, 'hand');
         await bot.consume();
-        bot.chat('もぐもぐ…');
+        bot.chat('Eating ' + food.name);
         return true;
     }
 
@@ -55,24 +55,74 @@ module.exports = (bot) => {
     function getNearbyPlayers(max = 64) {
         return Object.values(bot.players)
             .filter(p => p.entity && p.username !== bot.username && bot.entity.position.distanceTo(p.entity.position) < max)
-            .map(p => `- ${p.username} (距離:${bot.entity.position.distanceTo(p.entity.position).toFixed(1)})`)
-            .join('\\n') || 'なし';
+            .map(p => `- ${p.username} (Distance:${bot.entity.position.distanceTo(p.entity.position).toFixed(1)})`)
+            .join('\\n') || 'None';
     }
     function getNearbyEntities(max = 16) {
         return Object.values(bot.entities)
             .filter(e => e.type === 'mob' && e.mobType !== 'Player' && bot.entity.position.distanceTo(e.position) < max)
-            .map(e => `- ${e.name || e.mobType} (HP:${e.health})`).join('\\n') || 'なし';
+            .map(e => `- ${e.name || e.mobType} (HP:${e.health})`).join('\\n') || 'None';
     }
+    //     function getStatus(username, message) {
+    //         return `
+    // player instructions: ${username}: ${message}
+    // bot status: Health:${bot.health} Food:${bot.food} Coordinates:(${Math.floor(bot.entity.position.x)},${Math.floor(bot.entity.position.y)},${Math.floor(bot.entity.position.z)})}
+    // bot inventory: ${inventoryList()}
+    // Nearby Players:
+    // ${getNearbyPlayers()}
+    // Nearby Mobs:
+    // ${getNearbyEntities()}
+    // `;
+    //     }
+
     function getStatus(username, message) {
-        return `
-【プレイヤー発言】 ${username}: ${message}
-【Bot状態】 HP:${bot.health} 満腹:${bot.food} 座標:(${Math.floor(bot.entity.position.x)},${Math.floor(bot.entity.position.y)},${Math.floor(bot.entity.position.z)})
-【インベントリ】 ${inventoryList()}
-【周囲プレイヤー】
-${getNearbyPlayers()}
-【周囲モンスター】
-${getNearbyEntities()}
-`;
+        // 1. プレイヤー発言
+        const playerMessage = { username, message };
+
+        // 2. Bot の状態
+        const botStatus = {
+            health: bot.health,
+            food: bot.food,
+            position: {
+                x: Math.floor(bot.entity.position.x),
+                y: Math.floor(bot.entity.position.y),
+                z: Math.floor(bot.entity.position.z),
+            }
+        };
+
+        // 3. インベントリ
+        const inventory = bot.inventory.items().map(item => ({
+            item: item.name,
+            count: item.count
+        }));
+
+        // 4. 周囲のプレイヤー
+        const nearbyPlayers = Object.values(bot.players)
+            .filter(p => p.entity && p.username !== bot.username)
+            .map(p => ({
+                name: p.username,
+                distance: parseFloat(bot.entity.position.distanceTo(p.entity.position).toFixed(1))
+            }));
+
+        // 5. 周囲のモブ
+        const nearbyMobs = Object.values(bot.entities)
+            .filter(e => e.type === 'mob')
+            .map(mob => ({
+                type: mob.name,
+                health: mob.metadata.health ?? null
+            }));
+
+        // ステータスオブジェクトを組み立てて文字列化
+        const statusObj = {
+            playerMessage,
+            botStatus,
+            inventory,
+            nearbyPlayers,
+            nearbyMobs
+        };
+
+        // ここで JSON 形式の文字列を返す
+        return JSON.stringify(statusObj);
     }
 
     return {
