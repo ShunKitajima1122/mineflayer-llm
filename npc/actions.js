@@ -236,16 +236,25 @@ module.exports = (bot, utils, mcData) => {
                 return bot.chat('設置場所の下にブロックが見当たりません');
             }
 
-            // 7) 視線を合わせてから設置
-            await bot.placeBlock(refBlock, new Vec3(0, 1, 0), { timeout: 20000 });
+            // 7) 足元に置くのは無効
+            const botPos = bot.entity.position.floored();
+            if (placePos.equals(botPos)) {
+                return bot.chat('自分の足元にはブロックを置けません');
+            }
 
-            // await bot.lookAt(placePos.offset(0.5, 0.5, 0.5));
-            // try {
-            //     await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
-            //     bot.chat(`${blockName} を (${x}, ${y}, ${z}) に設置しました`);
-            // } catch (err) {
-            //     bot.chat(`ブロック設置に失敗: ${err.message}`);
-            // }
+            // 8) 既にブロックがあるか確認
+            const existing = bot.blockAt(placePos);
+            if (existing && existing.name !== 'air') {
+                return bot.chat(`そこには既に ${existing.name} が存在します`);
+            }
+
+            // 9) 設置
+            try {
+                await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
+                bot.chat(`${blockName} を (${x}, ${y}, ${z}) に設置しました`);
+            } catch (err) {
+                bot.chat(`ブロック設置に失敗: ${err.message}`);
+            }
         },
 
         /* ───────── equip ───────── */

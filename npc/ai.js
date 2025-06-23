@@ -61,7 +61,7 @@ ${ACTIONS}
                     model: process.env.OPENAI_MODEL,
                     temperature: 0,
                     top_p: 0.1,
-                    max_tokens: 512,
+                    max_tokens: 4096,
                     messages: [
                         { role: 'system', content: systemPrompt },
                         {
