@@ -11,12 +11,17 @@ module.exports = (bot, actions) => {
         if (running) return;
         running = true;
         while (q.length) {
-            const { type, target, count = 1, idx, total } = q.shift();
+            const { type, target, block, count, idx, total } = q.shift();
             if (total) bot.chat(`(${idx}/${total}) ${type} ${target ?? ''}`);
-            const fn = actions[type] ?? actions.chat;
             try {
-                // 常に actions を this にして実行
-                await fn.call(actions, target, count);
+                if (type === 'placeBlock') {
+                    // placeBlock(target, blockName)
+                    await actions.placeBlock(target, block);
+                } else {
+                    // それ以外は (target, count)
+                    const fn = actions[type] ?? actions.chat;
+                    await fn.call(actions, target, count);
+                }
             } catch (err) {
                 bot.chat(`タスク ${type} でエラー: ${err.message}`);
             }
