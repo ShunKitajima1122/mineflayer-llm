@@ -87,8 +87,10 @@ module.exports = function createBot() {
                 return;
             }
 
-            const { type, target, count = 1, block } = result;
-            if (type === 'placeBlock') {
+            const { type, target, block, count } = result;
+            if (type === 'digAt') {
+                await actions.digAt(target);
+            } else if (type === 'placeBlock') {
                 await actions.placeBlock(target, block);
             } else {
                 await (actions[type] ?? actions.chat).call(actions, target, count);

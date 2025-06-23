@@ -47,16 +47,32 @@ module.exports = (bot, utils, mcData) => {
 
         /* ----- dig ----- */
         async dig(target) {
-            const coords = parseCoords(target);
-            let block;
-            if (coords) block = bot.blockAt(new Vec3(...coords));
-            else {
-                const id = bot.registry.blocksByName[target]?.id;
-                if (id) block = bot.findBlock({ matching: id, maxDistance: 16 });
+            // 1) 座標をパース
+            const coords = utils.parseCoords(target);
+            if (!coords) {
+                return bot.chat('座標の形式が不正です。例: "100 64 -200"');
             }
-            if (!block) { bot.chat('掘れるブロックが見つかりません。'); return; }
-            bot.chat(`${block.name} を掘ります。`);
-            await bot.dig(block);
+            const [x, y, z] = coords;
+
+            // 2) 目標地点まで移動
+            bot.chat(`座標 (${x}, ${y}, ${z}) のブロックを掘ります…`);
+            bot.pathfinder.setGoal(new GoalNear(x, y, z, 1));
+            await new Promise(res => bot.once('goal_reached', res));
+
+            // 3) ブロック取得
+            const pos = new Vec3(x, y, z);
+            const block = bot.blockAt(pos);
+            if (!block || block.name === 'air') {
+                return bot.chat('そこには掘るべきブロックがありません。');
+            }
+
+            // 4) 掘削
+            try {
+                await bot.dig(block);
+                bot.chat(`座標 (${x}, ${y}, ${z}) の ${block.name} を掘りました。`);
+            } catch (err) {
+                bot.chat(`掘削に失敗: ${err.message}`);
+            }
         },
 
         /* ───────── attack ───────── */
@@ -76,7 +92,7 @@ module.exports = (bot, utils, mcData) => {
         },
 
         /* ---------- Gather (掘って回収) ---------- */
-        async gather(target, count = 1) {
+        async gather(target, count) {
             const id = bot.registry.blocksByName[target]?.id;
             if (!id) return bot.chat('そのブロック名が分かりません。');
 
@@ -208,7 +224,7 @@ module.exports = (bot, utils, mcData) => {
 
             // 5) 目標地点まで移動
             bot.chat(`ブロックを置くため ${x}, ${y}, ${z} へ移動します…`);
-            bot.pathfinder.setGoal(new GoalNear(x, y, z, 1));
+            bot.pathfinder.setGoal(new GoalNear(x, y, z, 3));
             await new Promise(res => {
                 bot.once('goal_reached', res);
             });
@@ -221,13 +237,14 @@ module.exports = (bot, utils, mcData) => {
             }
 
             // 7) 視線を合わせてから設置
-            await bot.lookAt(placePos.offset(0.5, 0.5, 0.5));
-            try {
-                await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
-                bot.chat(`${blockName} を (${x}, ${y}, ${z}) に設置しました`);
-            } catch (err) {
-                bot.chat(`ブロック設置に失敗: ${err.message}`);
-            }
+            await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
+            // await bot.lookAt(placePos.offset(0.5, 0.5, 0.5));
+            // try {
+            //     await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
+            //     bot.chat(`${blockName} を (${x}, ${y}, ${z}) に設置しました`);
+            // } catch (err) {
+            //     bot.chat(`ブロック設置に失敗: ${err.message}`);
+            // }
         },
 
         /* ───────── equip ───────── */

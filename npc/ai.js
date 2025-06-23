@@ -43,17 +43,18 @@ Example:
 
 Example:
 { "type":"plan", "steps":[
-    { "type":"move", "target":"100,64,200", "count":1 },
+    { "type":"move", "target":"99,63,200", "count":1 },
+    { "type":"dig", "target":"100,64,200" },
     { "type":"gather", "target":"oak_log", "count":1 },
     { "type":"craft", "target":"oak_planks", "count":4 }
-    { "type":"placeBlock", "target":"100,64,200", "block":"oak_planks", "count":1 }
+    { "type":"placeBlock", "target":"110,64,200", "block":"oak_planks" }
 ] }
 
 Valid actionName values:
 ${ACTIONS}
 
 3) In the case of **block installation**, be sure to return the following JSON format:
-{ "type":"placeBlock", "target":"x,y,z", "block":"oak_planks", "count":1 }
+{ "type":"placeBlock", "target":"x,y,z", "block":"oak_planks" }
 
 **IMPORTANT:**
 
@@ -69,7 +70,7 @@ ${ACTIONS}
                     model: process.env.OPENAI_MODEL,
                     temperature: 0,
                     top_p: 0.1,
-                    max_tokens: 120,
+                    max_tokens: 512,
                     messages: [
                         { role: 'system', content: systemPrompt },
                         {
@@ -81,6 +82,7 @@ ${ACTIONS}
                     ]
                 });
                 console.log(`AI response: ${res.choices[0].message.content}`);
+                console.log();
                 return JSON.parse(res.choices[0].message.content);
             } catch (e) {
                 if (i === 2) throw e;
