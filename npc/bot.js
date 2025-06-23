@@ -29,7 +29,8 @@ module.exports = function createBot() {
 
     const ai = createAI();
     const utils = createUtils(bot);
-    const actions = createActions(bot, utils);
+    const mcData = mcDataLoader(bot.version);
+    const actions = createActions(bot, utils, mcData);
 
     /* ── spawn 後に経路設定を初期化 ── */
     bot.once('spawn', () => {
@@ -74,7 +75,8 @@ module.exports = function createBot() {
         const status = utils.getStatus(username, message);
         const memory = history.recent(40);
 
-        console.log(status);
+        console.log('Status:', status);
+        console.log();
 
         try {
             const result = await ai.getAction(memory, status);
@@ -85,10 +87,12 @@ module.exports = function createBot() {
                 return;
             }
 
-            /* 単一アクション */
-            const { type, target, count = 1 } = result;
-            // ここで this を actions に固定
-            await (actions[type] ?? actions.chat).call(actions, target, count);
+            const { type, target, count = 1, block } = result;
+            if (type === 'placeBlock') {
+                await actions.placeBlock(target, block);
+            } else {
+                await (actions[type] ?? actions.chat).call(actions, target, count);
+            }
 
         } catch (err) {
             console.error(err);

@@ -3,8 +3,11 @@ const Vec3 = require('vec3');
 module.exports = (bot) => {
     /* ---------- Parsers ---------- */
     function parseCoords(str) {
-        const m = str.match(/(-?\\d+)\\s*[,:\\s]\\s*(-?\\d+)\\s*[,:\\s]\\s*(-?\\d+)/);
-        return m ? m.slice(1, 4).map(Number) : null;
+        if (typeof str !== 'string') return null;
+        const parts = str.trim().split(/[ ,]+/);
+        if (parts.length < 3) return null;
+        const nums = parts.slice(0, 3).map(p => Number(p));
+        return nums.every(n => !Number.isNaN(n)) ? nums : null;
     }
     function getGroundY(x, z) {
         for (let y = 255; y > 0; y--) {
@@ -63,17 +66,6 @@ module.exports = (bot) => {
             .filter(e => e.type === 'mob' && e.mobType !== 'Player' && bot.entity.position.distanceTo(e.position) < max)
             .map(e => `- ${e.name || e.mobType} (HP:${e.health})`).join('\\n') || 'None';
     }
-    //     function getStatus(username, message) {
-    //         return `
-    // player instructions: ${username}: ${message}
-    // bot status: Health:${bot.health} Food:${bot.food} Coordinates:(${Math.floor(bot.entity.position.x)},${Math.floor(bot.entity.position.y)},${Math.floor(bot.entity.position.z)})}
-    // bot inventory: ${inventoryList()}
-    // Nearby Players:
-    // ${getNearbyPlayers()}
-    // Nearby Mobs:
-    // ${getNearbyEntities()}
-    // `;
-    //     }
 
     function getStatus(username, message) {
         // 1. プレイヤー発言
@@ -101,7 +93,12 @@ module.exports = (bot) => {
             .filter(p => p.entity && p.username !== bot.username)
             .map(p => ({
                 name: p.username,
-                distance: parseFloat(bot.entity.position.distanceTo(p.entity.position).toFixed(1))
+                distance: parseFloat(bot.entity.position.distanceTo(p.entity.position).toFixed(1)),
+                position: {
+                    x: Math.floor(p.entity.position.x),
+                    y: Math.floor(p.entity.position.y),
+                    z: Math.floor(p.entity.position.z),
+                }
             }));
 
         // 5. 周囲のモブ
