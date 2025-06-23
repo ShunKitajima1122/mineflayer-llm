@@ -196,9 +196,9 @@ module.exports = (bot, utils, mcData) => {
         chat(text) { bot.chat(text); },
 
 
-        /* ───────── placeBlockAt ───────── */
+        /* ───────── placeBlock ───────── */
         async placeBlock(target, blockName) {
-            console.log(`placeBlockAt: target=${target}, blockName=${blockName}`);
+            console.log(`placeBlock: target=${target}, blockName=${blockName}`);
             // 1) 座標パース
             const coords = utils.parseCoords(target);
             if (!coords) {
@@ -237,7 +237,8 @@ module.exports = (bot, utils, mcData) => {
             }
 
             // 7) 視線を合わせてから設置
-            await bot.placeBlock(refBlock, new Vec3(0, 1, 0));
+            await bot.placeBlock(refBlock, new Vec3(0, 1, 0), { timeout: 20000 });
+
             // await bot.lookAt(placePos.offset(0.5, 0.5, 0.5));
             // try {
             //     await bot.placeBlock(refBlock, new Vec3(0, 1, 0));

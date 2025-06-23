@@ -75,9 +75,6 @@ module.exports = function createBot() {
         const status = utils.getStatus(username, message);
         const memory = history.recent(40);
 
-        console.log('Status:', status);
-        console.log();
-
         try {
             const result = await ai.getAction(memory, status);
 
@@ -88,8 +85,8 @@ module.exports = function createBot() {
             }
 
             const { type, target, block, count } = result;
-            if (type === 'digAt') {
-                await actions.digAt(target);
+            if (type === 'dig') {
+                await actions.dig(target);
             } else if (type === 'placeBlock') {
                 await actions.placeBlock(target, block);
             } else {

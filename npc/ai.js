@@ -12,38 +12,31 @@ module.exports = () => ({
 
         const systemPrompt = `
 You are an AI agent controlling a Minecraft Mineflayer bot.
-You will receive a single user message containing two sections:
+You will receive an information containing two sections:
 
-Memory:
+History:
 <plain-text event history lines>
 
-Current:
-<JSON string representing the current bot status and the player's instruction>
-
-Example user message:
-Memory:
-[12:34:56] chat: ShunKitajima: Build a house here
-
-Current:
-{"playerMessage":{"username":"ShunKitajima","message":"Build a house here"},"botStatus":{"health":20,"food":19,"position":{"x":100,"y":64,"z":200}},"inventory":[{"item":"oak_planks","count":32}],"nearbyPlayers":[{"name":"Notch","distance":5.3}],"nearbyMobs":[{"type":"zombie","health":10}]}
+Status:
+<JSON string representing the current status in minecraft and player message>
 
 Your task:
-- Parse the JSON in the “Current” section.
-- Use the event lines in “Memory” to inform your decision.
-- Decide on exactly one of these outputs:
+- Determine the output based on the messages from players included in “Status.”
+- Please refer to “History” when determining the output.
+- Please follow the format below for output.
 
 1) **Single action**  
-{ "type":"<actionName>", "target":"<string>", "count":<integer> }
+{ "type":"<actionName>", "target":"<string>", "block":"<string>", "count":<integer> }
 
 Example:
 { "type":"move", "target":"100,64,200", "count":1 }
 
-2) **Plan**
+2) **Multiple action**  
 { "type":"plan", "steps":[ /* list of single-action objects */ ] }
 
 Example:
 { "type":"plan", "steps":[
-    { "type":"move", "target":"99,63,200", "count":1 },
+    { "type":"move", "target":"99,63,200" },
     { "type":"dig", "target":"100,64,200" },
     { "type":"gather", "target":"oak_log", "count":1 },
     { "type":"craft", "target":"oak_planks", "count":4 }
@@ -52,9 +45,6 @@ Example:
 
 Valid actionName values:
 ${ACTIONS}
-
-3) In the case of **block installation**, be sure to return the following JSON format:
-{ "type":"placeBlock", "target":"x,y,z", "block":"oak_planks" }
 
 **IMPORTANT:**
 
@@ -76,8 +66,8 @@ ${ACTIONS}
                         {
                             role: 'user',
                             content:
-                                `Memory:\n${memory || '(No events)'}\n\n` +
-                                `Current:\n${status}`
+                                `History:\n${memory || '(No events)'}\n\n` +
+                                `Status:\n${status}`
                         }
                     ]
                 });
