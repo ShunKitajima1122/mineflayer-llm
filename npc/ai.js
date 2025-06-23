@@ -16,7 +16,7 @@ Return **only** JSON with one of the following two schemas.
 
 \`\`\`jsonc
 // 1. Single action
-{ "type": "<actionName>", "target": "<string or omitted>", "count": 1 }   // count は gather/craft で使用可
+{ "type": "<actionName>", "target": "<string or omitted>", "count": 1 }
 
 // 2. Multi-step plan
 { "type": "plan", "steps": [ /* array of the same single-action objects */ ] }
