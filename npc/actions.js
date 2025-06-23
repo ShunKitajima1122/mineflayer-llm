@@ -112,7 +112,7 @@ module.exports = (bot, utils, mcData) => {
         },
 
         /* ---------- Craft (クラフト) ---------- */
-        async craft(target, count = 1) {
+        async craft(target, count) {
             const item = bot.registry.itemsByName[target];
             if (!item) return bot.chat('そのアイテム名が分かりません。');
 
