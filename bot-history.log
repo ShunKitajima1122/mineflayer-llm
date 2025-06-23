@@ -1,0 +1,117 @@
+{"ts":1748266753826,"kind":"spawn","meta":{}}
+{"ts":1748266778851,"kind":"chat","payload":"ShunKitajima: プレイヤーのところに来てください","meta":{}}
+{"ts":1748266779717,"kind":"action","payload":"move → x:-257,y:68,z:17","meta":{}}
+{"ts":1748266788524,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748266805497,"kind":"chat","payload":"ShunKitajima: あなたの最後の行動を教えてください","meta":{}}
+{"ts":1748266806276,"kind":"action","payload":"chat → その情報は対応できません。何か他にお手伝いできることはありますか？","meta":{}}
+{"ts":1748266821073,"kind":"chat","payload":"ShunKitajima: botの最後の行動を参照してください","meta":{}}
+{"ts":1748266821790,"kind":"action","payload":"move → x:-260,y:68,z:17","meta":{}}
+{"ts":1748266821834,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748266831561,"kind":"chat","payload":"ShunKitajima: botの最後の行動を教えてください","meta":{}}
+{"ts":1748266832373,"kind":"action","payload":"chat → その情報は対応できません。何か他にお手伝いできることはありますか？","meta":{}}
+{"ts":1748266847785,"kind":"chat","payload":"ShunKitajima: 下のブロックを壊して","meta":{}}
+{"ts":1748266848387,"kind":"action","payload":"dig → x:-259,y:68,z:17","meta":{}}
+{"ts":1748266852403,"kind":"chat","payload":"ShunKitajima: 下のブロックを壊して","meta":{}}
+{"ts":1748266853085,"kind":"action","payload":"dig → x:-259,y:68,z:17","meta":{}}
+{"ts":1748266856484,"kind":"chat","payload":"ShunKitajima: 下のスバブロックを壊して","meta":{}}
+{"ts":1748266857283,"kind":"action","payload":"dig → x:-259,y:68,z:17","meta":{}}
+{"ts":1748266865726,"kind":"chat","payload":"ShunKitajima: 下の砂を壊して","meta":{}}
+{"ts":1748266866457,"kind":"action","payload":"dig → x:-259,y:68,z:17","meta":{}}
+{"ts":1748266938984,"kind":"spawn","meta":{}}
+{"ts":1748267364342,"kind":"spawn","meta":{}}
+{"ts":1748267378323,"kind":"chat","payload":"ShunKitajima: Set the time to 13000]","meta":{}}
+{"ts":1748267379140,"kind":"action","payload":"chat → その指示は対応できません。時間を設定するコマンドは実行できません。","meta":{}}
+{"ts":1748267740255,"kind":"spawn","meta":{}}
+{"ts":1748267742896,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267749766,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267750816,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267757067,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267757889,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267758985,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267759849,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267760765,"kind":"pvp","payload":"counter-attack zombie","meta":{}}
+{"ts":1748267772980,"kind":"chat","payload":"ShunKitajima: 下のブロックを壊して","meta":{}}
+{"ts":1748267773582,"kind":"action","payload":"move → x:-283,y:78,z:9","meta":{}}
+{"ts":1748267776777,"kind":"chat","payload":"ShunKitajima: come","meta":{}}
+{"ts":1748267777633,"kind":"action","payload":"move → x:-286,y:67,z:5","meta":{}}
+{"ts":1748267778892,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748267796535,"kind":"chat","payload":"ShunKitajima: あなたの下のブロック","meta":{}}
+{"ts":1748267797075,"kind":"action","payload":"dig → x:-284,y:67,z:5","meta":{}}
+{"ts":1748267803668,"kind":"chat","payload":"ShunKitajima: あなたの下の下のブロック","meta":{}}
+{"ts":1748267804156,"kind":"action","payload":"dig → x:-284,y:66,z:5","meta":{}}
+{"ts":1748267811906,"kind":"chat","payload":"ShunKitajima: もう一度","meta":{}}
+{"ts":1748267812449,"kind":"action","payload":"dig → x:-284,y:66,z:5","meta":{}}
+{"ts":1748267826616,"kind":"chat","payload":"ShunKitajima: 草ブロックを掘って","meta":{}}
+{"ts":1748267831156,"kind":"action","payload":"dig → x:-284,y:64,z:5","meta":{}}
+{"ts":1748267848231,"kind":"chat","payload":"ShunKitajima: プレイヤーの下のブロックを掘って","meta":{}}
+{"ts":1748267848866,"kind":"action","payload":"dig → x:-280,y:64,z:4","meta":{}}
+{"ts":1748267858538,"kind":"chat","payload":"ShunKitajima: もう一度操作を繰り返した","meta":{}}
+{"ts":1748267859186,"kind":"action","payload":"dig → x:-284,y:66,z:5","meta":{}}
+{"ts":1748267862356,"kind":"chat","payload":"ShunKitajima: もう一度操作を繰り返して","meta":{}}
+{"ts":1748267862895,"kind":"action","payload":"dig → x:-284,y:66,z:5","meta":{}}
+{"ts":1748267865670,"kind":"chat","payload":"ShunKitajima: ジャンプして","meta":{}}
+{"ts":1748267866247,"kind":"action","payload":"jump → ignore","meta":{}}
+{"ts":1748267873298,"kind":"chat","payload":"ShunKitajima: もう一度","meta":{}}
+{"ts":1748267874318,"kind":"action","payload":"dig → x:-284,y:66,z:5","meta":{}}
+{"ts":1748267919494,"kind":"chat","payload":"ShunKitajima: come","meta":{}}
+{"ts":1748267920106,"kind":"action","payload":"move → x:-288,y:67,z:5","meta":{}}
+{"ts":1748267931724,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748267936584,"kind":"spawn","meta":{}}
+{"ts":1748267942253,"kind":"chat","payload":"ShunKitajima: ジャンプして","meta":{}}
+{"ts":1748267942927,"kind":"action","payload":"jump → ignore","meta":{}}
+{"ts":1748267942928,"kind":"action","payload":"jumped","meta":{}}
+{"ts":1748267946248,"kind":"chat","payload":"ShunKitajima: もう一度","meta":{}}
+{"ts":1748267946659,"kind":"action","payload":"jump → ignore","meta":{}}
+{"ts":1748267946659,"kind":"action","payload":"jumped","meta":{}}
+{"ts":1748267981369,"kind":"chat","payload":"ShunKitajima: プレイヤーの下のブロックを壊して","meta":{}}
+{"ts":1748267981945,"kind":"action","payload":"move → x:-289,y:66,z:5","meta":{}}
+{"ts":1748267982547,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748267986421,"kind":"chat","payload":"ShunKitajima: プレイヤーの下のブロックを壊してください","meta":{}}
+{"ts":1748267986912,"kind":"action","payload":"move → x:-289,y:66,z:5","meta":{}}
+{"ts":1748267986962,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748267997795,"kind":"chat","payload":"ShunKitajima: プレイヤーの座標のブロックを壊してください","meta":{}}
+{"ts":1748267998273,"kind":"action","payload":"dig → x:-289,y:66,z:5","meta":{}}
+{"ts":1748268015913,"kind":"chat","payload":"ShunKitajima: 木を壊して","meta":{}}
+{"ts":1748268016496,"kind":"action","payload":"dig → oak_log","meta":{}}
+{"ts":1748268025176,"kind":"chat","payload":"ShunKitajima: もう一度","meta":{}}
+{"ts":1748268025677,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268032715,"kind":"chat","payload":"ShunKitajima: 木を壊して","meta":{}}
+{"ts":1748268033264,"kind":"action","payload":"dig → oak_log","meta":{}}
+{"ts":1748268038712,"kind":"chat","payload":"ShunKitajima: 木を壊して","meta":{}}
+{"ts":1748268039395,"kind":"action","payload":"dig → oak_log","meta":{}}
+{"ts":1748268047007,"kind":"chat","payload":"ShunKitajima: 木を壊して","meta":{}}
+{"ts":1748268048461,"kind":"action","payload":"dig → oak_log","meta":{}}
+{"ts":1748268053170,"kind":"chat","payload":"ShunKitajima: 木を壊して","meta":{}}
+{"ts":1748268056831,"kind":"action","payload":"dig → oak_log","meta":{}}
+{"ts":1748268095822,"kind":"spawn","meta":{}}
+{"ts":1748268104523,"kind":"chat","payload":"ShunKitajima: 最後の行動を教えてください","meta":{}}
+{"ts":1748268105454,"kind":"action","payload":"chat → 最後の行動は待機中です。","meta":{}}
+{"ts":1748268120001,"kind":"chat","payload":"ShunKitajima: 下のブロックを壊して","meta":{}}
+{"ts":1748268120548,"kind":"action","payload":"move → x:-288,y:65,z:4","meta":{}}
+{"ts":1748268120559,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1748268137080,"kind":"chat","payload":"ShunKitajima: あなたの下のブロックを壊して","meta":{}}
+{"ts":1748268138347,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268146315,"kind":"chat","payload":"ShunKitajima: あなたの下の草ブロックを壊して","meta":{}}
+{"ts":1748268146854,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268151111,"kind":"chat","payload":"ShunKitajima: 草ブロックを壊して","meta":{}}
+{"ts":1748268151719,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268155582,"kind":"chat","payload":"ShunKitajima: 草ブロックを壊してください","meta":{}}
+{"ts":1748268156152,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268159154,"kind":"chat","payload":"ShunKitajima: 草を壊してください","meta":{}}
+{"ts":1748268159731,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268163568,"kind":"chat","payload":"ShunKitajima: 土を壊してください","meta":{}}
+{"ts":1748268164052,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268179279,"kind":"chat","payload":"ShunKitajima: 木材を壊してください","meta":{}}
+{"ts":1748268179834,"kind":"action","payload":"dig → x:-288,y:66,z:4","meta":{}}
+{"ts":1748268198276,"kind":"chat","payload":"ShunKitajima: ジャンプして","meta":{}}
+{"ts":1748268199110,"kind":"action","payload":"jump → ignore","meta":{}}
+{"ts":1748268199111,"kind":"action","payload":"jumped","meta":{}}
+{"ts":1748268208486,"kind":"chat","payload":"ShunKitajima: あなたの最後の行動を教えて","meta":{}}
+{"ts":1748268209244,"kind":"action","payload":"chat → 最後の行動はジャンプしました。","meta":{}}
+{"ts":1749437451496,"kind":"spawn","meta":{}}
+{"ts":1749437460753,"kind":"chat","payload":"ShunKitajima: こっちに来て","meta":{}}
+{"ts":1749437461949,"kind":"action","payload":"move → x:-9,y:68,z:-1","meta":{}}
+{"ts":1749437467491,"kind":"action","payload":"arrived at goal","meta":{}}
+{"ts":1749437478263,"kind":"chat","payload":"ShunKitajima: こっちに来てください","meta":{}}
+{"ts":1749437479089,"kind":"action","payload":"move → x:-28,y:72,z:28","meta":{}}
+{"ts":1749437488904,"kind":"action","payload":"arrived at goal","meta":{}}
