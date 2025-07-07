@@ -45,12 +45,34 @@ module.exports = (bot, utils, mcData) => {
             }
         },
 
+        async digBlock(blockName) {
+            // 1) Minecraft-data からブロック名→ID
+            const blockId = mcData.blocksByName[blockName]?.id;
+            if (!blockId) {
+                return bot.chat(`不明なブロック: ${blockName}`);
+            }
+
+            // 2) ブロックを探す
+            const block = bot.findBlock({ matching: blockId, maxDistance: 64 });
+            if (!block) {
+                return bot.chat(`${blockName} が見つかりません。`);
+            }
+
+            // 3) 掘削
+            try {
+                await bot.dig(block);
+                bot.chat(`${block.name} を掘りました。`);
+            } catch (err) {
+                bot.chat(`掘削に失敗: ${err.message}`);
+            }
+        },
+
         /* ----- dig ----- */
         async dig(target) {
             // 1) 座標をパース
             const coords = utils.parseCoords(target);
             if (!coords) {
-                return bot.chat('座標の形式が不正です。例: "100 64 -200"');
+                return bot.chat('座標の形式が正しくありません。例: "100 64 -200"');
             }
             const [x, y, z] = coords;
 
@@ -145,10 +167,12 @@ module.exports = (bot, utils, mcData) => {
         },
 
         /* ───────── give ───────── */
-        async give(target) {
+        async give(target, block) {
             const [name, ...rest] = target.split(/\s+/);
-            const itemName = rest.join(' ');
+            const itemName = block;
             const player = getPlayerEntity(name);
+            console.log(target);
+            console.log(`Giving ${itemName} to ${name}`);
             if (!player) return bot.chat('相手が見つかりません。');
             const item = bot.inventory.items().find(i => i.name === itemName);
             if (!item) return bot.chat('アイテムを持っていません。');

@@ -86,9 +86,16 @@ module.exports = function createBot() {
 
             const { type, target, block, count } = result;
             if (type === 'dig') {
-                await actions.dig(target);
+                const coords = utils.parseCoords(target);
+                if (!coords) {
+                    await actions.digBlock(target);
+                } else {
+                    await actions.dig(target);
+                }
             } else if (type === 'placeBlock') {
                 await actions.placeBlock(target, block);
+            } else if (type === 'give') {
+                await actions.give(target, block);
             } else {
                 await (actions[type] ?? actions.chat).call(actions, target, count);
             }

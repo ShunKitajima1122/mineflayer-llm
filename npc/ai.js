@@ -28,8 +28,13 @@ Your task:
 1) **Single action**  
 { "type":"<actionName>", "target":"<string>", "block":"<string>", "count":<integer> }
 
-Example:
+Examples:
 { "type":"move", "target":"100,64,200", "count":1 }
+{ "type":"dig", "target":"100,64,200" }
+{ "type":"chat", "target":"こんにちは。何か手伝えることはありますか？"}
+{ "type":"dig", "target":"oak_log" }
+{ "type":"move", "target":"100,50,200" }
+{ "type":"craft", "target":"oak_planks", "count":4 }
 
 2) **Multiple action**  
 { "type":"plan", "steps":[ /* list of single-action objects */ ] }
