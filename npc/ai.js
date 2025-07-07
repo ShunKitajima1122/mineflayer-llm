@@ -36,7 +36,7 @@ Example:
 
 Example:
 { "type":"plan", "steps":[
-    {"type":"chat", "target":"近くの木を切って、木材を集め、置きます。"},
+    {"type":"chat", "target":"近くの木を切って木材を集め、それを置きます。"},
     { "type":"move", "target":"99,63,200" },
     { "type":"dig", "target":"100,64,200" },
     { "type":"gather", "target":"oak_log", "count":1 },
