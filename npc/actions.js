@@ -46,6 +46,8 @@ module.exports = (bot, utils, mcData) => {
         },
 
         async digBlock(blockName) {
+            console.log(`digBlock: ${blockName}`);
+
             // 1) Minecraft-data からブロック名→ID
             const blockId = mcData.blocksByName[blockName]?.id;
             if (!blockId) {
@@ -62,6 +64,29 @@ module.exports = (bot, utils, mcData) => {
             try {
                 await bot.dig(block);
                 bot.chat(`${block.name} を掘りました。`);
+
+                // 少し待機してからアイテムを回収
+                await new Promise(resolve => setTimeout(resolve, 200));
+
+                // 周辺にあるアイテムエンティティを取得
+                const droppedItems = Object.values(bot.entities).filter(e =>
+                    e.name === 'item' &&
+                    e.position.distanceTo(block.position) < 3
+                );
+
+                if (droppedItems.length === 0) {
+                    return bot.chat('ドロップアイテムが見つかりませんでした。');
+                }
+
+                // ひとつずつ回収
+                for (const itemEntity of droppedItems) {
+                    try {
+                        await bot.collectBlock.collect(itemEntity);
+                        bot.chat(`アイテムを回収しました。`);
+                    } catch (err) {
+                        bot.chat(`アイテム回収に失敗: ${err.message}`);
+                    }
+                }
             } catch (err) {
                 bot.chat(`掘削に失敗: ${err.message}`);
             }
@@ -136,19 +161,24 @@ module.exports = (bot, utils, mcData) => {
         /* ---------- Craft (クラフト) ---------- */
         async craft(target, count) {
             const item = bot.registry.itemsByName[target];
-            if (!item) return bot.chat('そのアイテム名が分かりません。');
+            if (!item)
+                return bot.chat('そのアイテム名が分かりません。');
 
-            /** 既存数を考慮 */
-            const have = bot.inventory.items().filter(i => i.name === target).reduce((s, i) => s + i.count, 0);
-            const needItems = Math.max(0, count - have);
-            if (needItems === 0) { bot.chat(`${target} は既に十分あります。`); return; }
+            // /** 既存数を考慮 */
+            // const have = bot.inventory.items().filter(i => i.name === target).reduce((s, i) => s + i.count, 0);
+            // const needItems = Math.max(0, count - have);
+            // if (needItems === 0) {
+            //     bot.chat(`${target} は既に十分あります。`);
+            //     return;
+            // }
 
             const recipe = bot.recipesFor(item.id, null, 1, null)[0];
-            if (!recipe) return bot.chat('レシピが見つかりません。');
+            if (!recipe)
+                return bot.chat('レシピが見つかりません。');
 
             // レシピ1回の出力数 (例: 原木→木材 は 4)
             const perCraft = recipe.result.count;
-            const crafts = Math.ceil(needItems / perCraft);
+            const crafts = Math.ceil(count / perCraft);
 
             try {
                 await bot.craft(recipe, crafts, null);
@@ -168,16 +198,30 @@ module.exports = (bot, utils, mcData) => {
 
         /* ───────── give ───────── */
         async give(target, block) {
-            const [name, ...rest] = target.split(/\s+/);
             const itemName = block;
-            const player = getPlayerEntity(name);
+            const player = getPlayerEntity(target);
             console.log(target);
-            console.log(`Giving ${itemName} to ${name}`);
-            if (!player) return bot.chat('相手が見つかりません。');
+            console.log(`Giving ${itemName} to ${target}`);
+
+            if (!player) {
+                return bot.chat('相手が見つかりません。');
+            }
+
             const item = bot.inventory.items().find(i => i.name === itemName);
-            if (!item) return bot.chat('アイテムを持っていません。');
+            if (!item) {
+                return bot.chat('アイテムを持っていません。');
+            }
+
+            // プレイヤーの目線（高さ）を取得。entity.metadata などから height が取れない場合は固定値でも可
+            const eyeHeight = typeof player.height === 'number' ? player.height : 1.6;
+            const lookPosition = player.position.offset(0, eyeHeight, 0);
+            // プレイヤーの方向を向く
+            await bot.lookAt(lookPosition, true);
+            // 少し待機
+            await new Promise(resolve => setTimeout(resolve, 200));
+            // アイテムを投げる
             await bot.tossStack(item);
-            bot.chat(`${itemName} を ${name} に渡しました。`);
+            bot.chat(`${itemName} を ${target} に渡しました。`);
         },
 
         /* ───────── inventory ───────── */
@@ -196,7 +240,16 @@ module.exports = (bot, utils, mcData) => {
         },
 
         /* ───────── eat ───────── */
-        async eat() { await tryEat(); },
+        async eat() {
+            const food = bot.inventory.items().find(i =>
+                /(apple|bread|cookie|melon_slice|dried_kelp|beetroot|beetroot_soup|carrot|potato|baked_potato|poisonous_potato|raw_chicken|cooked_chicken|raw_beef|cooked_beef|raw_porkchop|cooked_porkchop|raw_mutton|cooked_mutton|raw_rabbit|cooked_rabbit|raw_cod|cooked_cod|salmon|cooked_salmon|tropical_fish|pufferfish|rotten_flesh|spider_eye|mushroom_stew|rabbit_stew|pumpkin_pie|suspicious_stew|golden_carrot|glow_berries|chorus_fruit|golden_apple|enchanted_golden_apple|honey_bottle)/.test(i.name)
+            );
+            if (!food) return false;
+            await bot.equip(food, 'hand');
+            await bot.consume();
+            bot.chat('Eating ' + food.name);
+            return true;
+        },
 
         /* ───────── jump ───────── */
         jump() {

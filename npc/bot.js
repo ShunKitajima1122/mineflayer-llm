@@ -26,6 +26,7 @@ module.exports = function createBot() {
     bot.loadPlugin(pathfinder);
     bot.loadPlugin(pvp);
     bot.loadPlugin(collectBlockPlugin);
+    bot.loadPlugin(require('mineflayer-collectblock').plugin);
 
     const ai = createAI();
     const utils = createUtils(bot);
@@ -47,7 +48,7 @@ module.exports = function createBot() {
 
         // 初回あいさつ
         bot.chat(
-            'こんにちは！できること：来る・掘る・戦う・フォロー・アイテム渡し・持ち物表示・チェスト収納・食事・ジャンプ・寝る。'
+            'こんにちは！'
         );
     });
 
@@ -79,7 +80,7 @@ module.exports = function createBot() {
             const result = await ai.getAction(memory, status);
 
             if (result.type === 'plan' && Array.isArray(result.steps)) {
-                bot.chat('I understand the plan. executing...');
+                await bot.chat('複数の行動を実行します。');
                 taskQueue.add(result.steps);
                 return;
             }
@@ -87,6 +88,7 @@ module.exports = function createBot() {
             const { type, target, block, count } = result;
             if (type === 'dig') {
                 const coords = utils.parseCoords(target);
+                console.log(`Digging: ${coords}, target:${target}`);
                 if (!coords) {
                     await actions.digBlock(target);
                 } else {
