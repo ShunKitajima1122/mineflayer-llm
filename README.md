@@ -1,2 +1,4 @@
 # mineflayer-llm
-JavaScript code using Mineflayer and GPT-4.1-mini
+JavaScript Mineflayer and GPT-4.1-mini
+# 実行方法
+npcディレクトリに移動し、「node index.js」で実行
